@@ -1,0 +1,44 @@
+# File: .inputrc
+#
+# Description: GNU Readline configuration.
+#
+#   Readline is the line-editing library, not a Bash feature, so this
+#   file also governs any other program linked against it -- gdb,
+#   psql, and Python's interactive prompt among them. Settings apply
+#   at readline init; run `bind -f ~/.inputrc` to reload without
+#   starting a new shell, and `bind -p` / `bind -v` to inspect the
+#   bindings and variables currently in effect.
+#
+#   Readline reads $INPUTRC if set, otherwise ~/.inputrc, falling
+#   back to /etc/inputrc only when ~/.inputrc is absent. This machine
+#   has no /etc/inputrc, so this file is the whole configuration.
+#
+#   macOS caveat: some system tools link against libedit rather than
+#   GNU readline. Those read ~/.editrc and ignore this file.
+#
+# See also: .bashrc, .bash_profile
+#
+# Author: Rubens Gomes
+######################################################################
+
+# Silence the terminal bell that readline rings on an ambiguous or
+# failed completion. Alternatives are `audible` (the default) and
+# `visible`, which flashes the terminal instead.
+set bell-style none
+
+# Make Up/Down search history by what has already been typed, rather
+# than walking it one entry at a time. With an empty line they behave
+# exactly like the defaults; type `git ` first and Up cycles only
+# through past commands starting with `git `. The search prefix is
+# the text from the start of the line to the cursor.
+#
+# \e[A and \e[B are the arrow-key sequences a terminal sends in normal
+# cursor mode. Terminals in DEC application cursor mode send \eOA and
+# \eOB instead, which readline binds to plain previous-history and
+# next-history; those defaults are left in place here, so arrows fall
+# back to unfiltered history walking in that mode.
+#
+# Note that readline already binds PageUp and PageDown (\e[5~, \e[6~)
+# to these same two functions by default, so both key pairs work.
+"\e[A": history-search-backward
+"\e[B": history-search-forward

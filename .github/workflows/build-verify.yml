@@ -1,0 +1,111 @@
+# =============================================================================
+# Build and Verify
+#
+# Builds the nettools Docker image and verifies it: required tool binaries,
+# copied dotfiles, the MOTD banner, and OCI labels.
+#
+# This project's source code and documentation were generated with the
+# assistance of Artificial Intelligence (AI). For more information, please
+# refer to the `AI_DISCLAIMER.md` document located in the project's root
+# directory.
+# =============================================================================
+
+name: Build and Verify
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3
+        with:
+          dockerfile: Dockerfile
+
+      - name: Build image
+        run: |
+          set -euo pipefail
+          VERSION="$(cat VERSION)"
+          echo "Building nettools:${VERSION} (and nettools:latest)..."
+          docker build \
+            --build-arg VERSION="${VERSION}" \
+            -t "nettools:${VERSION}" \
+            -t "nettools:latest" .
+          echo "Built nettools:${VERSION}."
+
+      - name: Verify container starts
+        run: |
+          set -euo pipefail
+          echo "Starting nettools:latest..."
+          docker run --rm nettools:latest bash -c "true"
+          echo "Container started and exited cleanly."
+
+      - name: Verify installed tools
+        run: |
+          set -euo pipefail
+          echo "Checking required tool binaries are on PATH..."
+          docker run --rm nettools:latest bash -c '
+            set -euo pipefail
+            tools="ab dig curl iperf3 ip ping tracepath mtr netstat nc \
+              nmap ssh openssl socat tcpdump telnet traceroute wget \
+              awk htop less lsof column ps strace tree tput vim gzip \
+              jq yq tar bash"
+            missing=0
+            for t in $tools; do
+              if ! command -v "$t" >/dev/null 2>&1; then
+                echo "MISSING: $t" >&2
+                missing=1
+              fi
+            done
+            exit "$missing"
+          '
+          echo "All expected tool binaries are present."
+
+      # bash -n catches syntax errors without sourcing the file, so a
+      # broken dotfile fails CI instead of surfacing at container login.
+      - name: Verify dotfiles
+        run: |
+          set -euo pipefail
+          echo "Checking dotfiles and motd were copied and are valid..."
+          docker run --rm nettools:latest bash -c '
+            set -euo pipefail
+            test -f /etc/motd
+            for f in .bashrc .bash_aliases .bash_profile .inputrc .vimrc; do
+              test -f "/root/${f}"
+            done
+            bash -n /root/.bashrc
+            bash -n /root/.bash_aliases
+            bash -n /root/.bash_profile
+          '
+          echo "Dotfiles present and syntactically valid."
+
+      - name: Verify MOTD is shown on shell start
+        run: |
+          set -euo pipefail
+          echo "Checking the MOTD banner prints on shell start..."
+          docker run --rm -i nettools:latest bash -ic "true" \
+            | grep -q "Welcome to NetTools"
+          echo "MOTD banner confirmed."
+
+      - name: Verify OCI labels
+        run: |
+          set -euo pipefail
+          VERSION="$(cat VERSION)"
+          label="org.opencontainers.image.version"
+          actual="$(docker inspect \
+            --format="{{ index .Config.Labels \"${label}\" }}" \
+            nettools:latest)"
+          echo "VERSION file        : ${VERSION}"
+          echo "image label version : ${actual}"
+          if [ "${actual}" != "${VERSION}" ]; then
+            echo "::error::Image label version does not match VERSION file."
+            exit 1
+          fi
