@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.3] - 2026-09-20
+
+### Added
+
+### Changed
+
+### Fixed
+
 - `bashrc`: default `TERM` to `xterm` when unset before the color-support
   check. `az containerapp exec` sessions can leave `TERM` unset or `dumb`,
   which made `tput` fail to resolve color capabilities and print a
