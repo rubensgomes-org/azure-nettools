@@ -29,6 +29,7 @@ RUN apt-get update && \
         wget \
         # System & Process Monitoring \
         bash-completion \
+        bsdextrautils \
         coreutils \
         gawk \
         htop \

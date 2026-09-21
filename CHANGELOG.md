@@ -46,5 +46,8 @@ premise.
 
 - `Dockerfile`: suppressed the intentional hadolint `DL3008` finding on the
   unpinned `apt-get install`, which was failing `build-verify`.
+- `Dockerfile`: added `bsdextrautils`, which provides `column` on Debian
+  trixie now that it has moved out of `util-linux`; `build-verify` was
+  failing on the missing binary.
 
 ### Removed
