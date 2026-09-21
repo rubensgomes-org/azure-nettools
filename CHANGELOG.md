@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.5] - 2026-09-20
+
+### Added
+
+### Changed
+
+### Fixed
+
 - `Dockerfile`: renamed the `VERSION` build arg to `APP_VERSION` to match
   what the `publish-acr-image` reusable CI action actually passes. The
   mismatch meant the arg was silently ignored, so every image built via
