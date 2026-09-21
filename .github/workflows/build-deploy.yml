@@ -1,0 +1,157 @@
+# =============================================================================
+# build-deploy (azure-nettools)
+#
+# Builds the nettools container image and pushes it to an EXISTING Azure
+# Container Registry, verifies the push, smoke-tests the image and purges
+# the untagged manifests it orphaned. Then updates the EXISTING Azure
+# Container App to run the newly published image.
+#
+# The EXISTING Azure Container Registry and Container App are expected to be
+# provisioned using one of the workflows in the Terraform IaC `azure-iac`
+# repo.
+#
+# This project's source code and documentation were generated with the
+# assistance of Artificial Intelligence (AI). For more information, please
+# refer to the `AI_DISCLAIMER.md` document located in the project's root
+# directory.
+# =============================================================================
+name: build-deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Image namespace, used as <environment>/<artifactId>:<tag>.'
+        required: false
+        default: dev
+        type: choice
+        options:
+          - dev
+          - lab
+      tag:
+        description: 'Image tag. Empty defaults to the version in VERSION.'
+        required: false
+        type: string
+      registry_name:
+        description: 'Name of the EXISTING Azure Container Registry to push to (not the login server).'
+        required: true
+        type: choice
+        options:
+          - crrgomesdev01
+          - crrgomeslab02
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Resolve the application version
+        id: version
+        run: |
+          echo "=============================================================="
+          echo " STEP: Resolve the application version"
+          echo "=============================================================="
+          set -euo pipefail
+          echo "app-version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+
+      # No language-specific build step: the Dockerfile is the build.
+      # smoke-entrypoint/smoke-args override the action's "--version" default,
+      # which the nettools image (CMD ["/bin/bash"], no ENTRYPOINT) does not
+      # support.
+      - name: Publish the image to ACR
+        uses: rubensgomes-org/azure-workflows/.github/actions/publish-acr-image@v0
+        with:
+          azure-client-id: ${{ vars.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          azure-tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          registry-name: ${{ inputs.registry_name }}
+          artifact-id: nettools
+          environment: ${{ inputs.environment }}
+          tag: ${{ inputs.tag }}
+          app-version: ${{ steps.version.outputs.app-version }}
+          smoke-entrypoint: bash
+          smoke-args: -c true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACT_ID: nettools
+      ENVIRONMENT: ${{ inputs.environment }}
+      REGISTRY_NAME: ${{ inputs.registry_name }}
+      # Naming convention shared across the rgomesapp estate.
+      RESOURCE_GROUP: rg-rgomesapp-${{ inputs.environment }}
+      CONTAINER_APP: ca-nettools-${{ inputs.environment }}
+    steps:
+      - name: Sign in to Azure
+        uses: rubensgomes-org/azure-workflows/.github/actions/azure-login@v0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # Fails fast if Terraform (rubensgomes-org/azure-iac) has not already
+      # provisioned this container app; this workflow never creates one.
+      - name: Ensure the container app is provisioned
+        run: |
+          echo "=============================================================="
+          echo " STEP: Ensure the container app is provisioned"
+          echo "=============================================================="
+          set -euo pipefail
+          if ! az containerapp show \
+              -g "$RESOURCE_GROUP" \
+              -n "$CONTAINER_APP" \
+              --query name -o tsv >/dev/null; then
+            echo "Container app '${CONTAINER_APP}' is not provisioned in" \
+              "resource group '${RESOURCE_GROUP}'." >&2
+            echo "Provision it via rubensgomes-org/azure-iac first." >&2
+            exit 1
+          fi
+
+      - name: Resolve the published image reference
+        id: image
+        run: |
+          echo "=============================================================="
+          echo " STEP: Resolve the published image reference"
+          echo "=============================================================="
+          set -euo pipefail
+          repository="${ENVIRONMENT}/${ARTIFACT_ID}"
+          tag="${{ inputs.tag }}"
+          if [ -z "$tag" ]; then
+            tag="$(az acr repository show-tags \
+              --name "$REGISTRY_NAME" \
+              --repository "$repository" \
+              --orderby time_desc --top 1 -o tsv)"
+          fi
+          login_server="$(az acr show \
+            --name "$REGISTRY_NAME" \
+            --query loginServer -o tsv)"
+          image="${login_server}/${repository}:${tag}"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "Resolved image: ${image}"
+
+      - name: Update the container app with the new image
+        env:
+          IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          echo "=============================================================="
+          echo " STEP: Update the container app with the new image"
+          echo " az containerapp update -g ${RESOURCE_GROUP}" \
+            "-n ${CONTAINER_APP} --image ${IMAGE}"
+          echo "=============================================================="
+          set -euo pipefail
+          az containerapp update \
+            -g "$RESOURCE_GROUP" \
+            -n "$CONTAINER_APP" \
+            --image "$IMAGE"

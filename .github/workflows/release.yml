@@ -1,0 +1,167 @@
+# =============================================================================
+# release (azure-nettools)
+#
+# The gate between a pushed tag and a release. Fires on v*.*.*, verifies the
+# tag matches the VERSION file and has a CHANGELOG section, then publishes a
+# GitHub Release whose notes are that section.
+#
+# This project's source code and documentation were generated with the
+# assistance of Artificial Intelligence (AI). For more information, please
+# refer to the `AI_DISCLAIMER.md` document located in the project's root
+# directory.
+# =============================================================================
+name: release
+
+on:
+  push:
+    tags: ['v*.*.*']
+  # Re-runs a release. Dispatch from the TAG ref -- dispatching from a branch
+  # fails validate immediately, because `main` is not vX.Y.Z.
+  workflow_dispatch:
+
+# Read-only by default. The publish job that writes raises it itself, so the
+# validate job cannot cut a release even by accident.
+permissions:
+  contents: read
+
+concurrency:
+  # Keyed on the tag: two different releases never serialise behind each
+  # other, but a re-run of the same tag cannot race itself. Never
+  # cancel-in-progress -- a half-run release job is worse than a slow one.
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Everything that can say no. Runs before anything writes.
+  # ---------------------------------------------------------------------------
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    outputs:
+      version: ${{ steps.gate.outputs.version }}
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      # The tag is the source of truth for the release, so drift can happen
+      # in two places: VERSION disagreeing with the tag (the image build
+      # would tag a different version than the one being released), or no
+      # CHANGELOG section behind the tag.
+      - name: Verify tag shape, VERSION file, and CHANGELOG entry
+        id: gate
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          echo "=============================================================="
+          echo " STEP: Verify tag shape, VERSION file, and CHANGELOG entry"
+          echo "=============================================================="
+          set -euo pipefail
+
+          version="${RELEASE_TAG#v}"
+
+          # Also the guard against a workflow_dispatch fired from a branch:
+          # github.ref_name is then 'main', which is not MAJOR.MINOR.PATCH.
+          semver='^[0-9]+\.[0-9]+\.[0-9]+$'
+          if ! printf '%s' "$version" | grep -qE "$semver"; then
+            echo "::error::Ref '${RELEASE_TAG}' is not vMAJOR.MINOR.PATCH."
+            echo "Dispatch this workflow from the TAG ref, not from a branch."
+            exit 1
+          fi
+
+          file_version="$(cat VERSION)"
+          if [ "$file_version" != "$version" ]; then
+            echo "::error::VERSION holds '${file_version}', but the tag is" \
+                 "'${RELEASE_TAG}'."
+            echo "Bump VERSION to match, commit, then re-tag." >&2
+            exit 1
+          fi
+
+          if ! grep -q "^## \[${version}\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [${version}]' section."
+            exit 1
+          fi
+
+          echo "Release tag : ${RELEASE_TAG}"
+          echo "Version     : ${version}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+      # The same check build-verify.yml runs on main. Repeated here because a
+      # tag can name any commit, including one build-verify never saw.
+      - name: actionlint
+        uses: docker://rhysd/actionlint:1.7.7
+        with:
+          args: -color
+
+  # ---------------------------------------------------------------------------
+  # Publishes the GitHub Release.
+  # ---------------------------------------------------------------------------
+  publish:
+    name: publish
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: write
+
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+      VERSION: ${{ needs.validate.outputs.version }}
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      # awk prints everything between "## [<version>]" and the next "## ["
+      # heading. Written to a file rather than an output variable so newlines
+      # and markdown survive intact.
+      - name: Build release notes from CHANGELOG
+        shell: bash
+        run: |
+          echo "=============================================================="
+          echo " STEP: Build release notes from CHANGELOG"
+          echo "=============================================================="
+          set -euo pipefail
+
+          awk -v ver="${VERSION}" '
+            $0 == "## [" ver "]" ||
+              index($0, "## [" ver "] ") == 1 { f = 1; next }
+            f && /^## \[/ { exit }
+            f { print }
+          ' CHANGELOG.md > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "::error::Extracted release notes for ${VERSION} are empty."
+            exit 1
+          fi
+
+          echo "----- release notes -----"
+          cat release-notes.md
+
+      # Idempotent-ish: if the release already exists (a re-run), `gh release
+      # create` fails, so we edit instead. Keeps re-runs from being a dead end.
+      - name: Publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=============================================================="
+          echo " STEP: Publish GitHub Release"
+          echo "=============================================================="
+          set -euo pipefail
+
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "Release ${RELEASE_TAG} already exists - updating notes."
+            gh release edit "${RELEASE_TAG}" \
+              --title "${RELEASE_TAG}" \
+              --notes-file release-notes.md
+          else
+            gh release create "${RELEASE_TAG}" \
+              --title "${RELEASE_TAG}" \
+              --notes-file release-notes.md
+          fi

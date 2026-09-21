@@ -26,7 +26,21 @@ premise.
 
 ### Added
 
+- `.github/workflows/aca-create.yml`: provisions the Azure Container App
+  estate via the reusable `azure-iac` workflow.
+- `.github/workflows/aca-destroy.yml`: destroys the container apps module via
+  the reusable `azure-iac` workflow.
+- `.github/workflows/build-deploy.yml`: builds and pushes the `nettools`
+  image to Azure Container Registry, then updates the Azure Container App.
+- `scripts/initvars.sh`: resets this repository's GitHub Actions variables
+  and secrets from the shell environment.
+- `.github/workflows/release.yml`: verifies a pushed `vX.Y.Z` tag against
+  VERSION and CHANGELOG.md, then publishes a GitHub Release.
+
 ### Changed
+
+- `.github/workflows/build-verify.yml`: pins `hadolint/hadolint-action` to
+  `v3.1.0`.
 
 ### Fixed
 

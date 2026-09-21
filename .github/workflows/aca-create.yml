@@ -1,0 +1,54 @@
+# =============================================================================
+# aca-create (azure-nettools)
+#
+# Provisions the Azure Container App estate (resource groups, networking,
+# log analytics, managed identity, key vault, ACR, container app environment
+# and container apps) by calling the reusable ACA Create workflow in the
+# Terraform IaC `azure-iac` repo.
+#
+# This project's source code and documentation were generated with the
+# assistance of Artificial Intelligence (AI). For more information, please
+# refer to the `AI_DISCLAIMER.md` document located in the project's root
+# directory.
+# =============================================================================
+name: aca-create
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment_name:
+        description: 'Estate environment to provision.'
+        required: true
+        type: choice
+        options:
+          - dev
+          - lab
+      acr_name:
+        description: 'Registry to pull images from (not the login server).'
+        required: true
+        type: choice
+        options:
+          - crrgomesdev01
+          - crrgomeslab02
+      app_name:
+        description: 'Name of the app to provision.'
+        required: true
+        type: string
+        default: "nettools"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aca-create
+  cancel-in-progress: false
+
+jobs:
+  create:
+    uses: rubensgomes-org/azure-iac/.github/workflows/aca-create.yml@v0
+    with:
+      environment_name: ${{ inputs.environment_name }}
+      acr_name: ${{ inputs.acr_name }}
+      apps: '["${{ inputs.app_name }}"]'
+    secrets:
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
