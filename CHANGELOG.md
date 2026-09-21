@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.2] - 2026-09-20
+
+### Added
+
+### Changed
+
+### Fixed
+
 - `Dockerfile`: changed `CMD` from `/bin/bash` to `sleep infinity`. Bash
   exited immediately with no TTY at container start, causing a
   `CrashLoopBackOff` that broke `az containerapp exec`.
