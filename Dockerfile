@@ -2,7 +2,10 @@ FROM debian:stable-slim
 
 # ---------- >>> PACKAGES <<< -------------------------------------------------
 
-# Install core troubleshooting utilities
+# Install core troubleshooting utilities. Versions are deliberately
+# unpinned: this image tracks the latest tool builds, not a reproducible
+# pin, so DL3008 is intentional here.
+# hadolint ignore=DL3008
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         # Networking \

@@ -44,4 +44,7 @@ premise.
 
 ### Fixed
 
+- `Dockerfile`: suppressed the intentional hadolint `DL3008` finding on the
+  unpinned `apt-get install`, which was failing `build-verify`.
+
 ### Removed

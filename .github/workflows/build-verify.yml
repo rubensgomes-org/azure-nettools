@@ -10,7 +10,7 @@
 # directory.
 # =============================================================================
 
-name: Build and Verify
+name: build-verify
 
 on:
   workflow_dispatch:
