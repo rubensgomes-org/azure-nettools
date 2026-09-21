@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.8] - 2026-09-21
+
+### Added
+
+### Changed
+
 - `aca-create.yml`: removed the manual `acr_name` input. The registry name is
   now derived from `environment_name` (`dev` -> `crrgomesdev01`, `lab` ->
   `crrgomeslab02`) by a new `resolve-acr` job.
