@@ -3,10 +3,10 @@
 All notable changes to this project are documented in this file.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-Versioning: [Semantic Versioning](https://semver.org/) with **infra-impact
-semantics**: PATCH for in-place tweaks and docs, MINOR for new resources or
-modules, MAJOR for anything that destroys, recreates, or renames an existing
-resource. `make release-check` prints the same three lines against the current
+Versioning: [Semantic Versioning](https://semver.org/) with **image-impact
+semantics**: PATCH for docs and in-place tweaks with no tool changes, MINOR
+for added tools or dotfiles, MAJOR for removed/renamed tools or a base image
+change. `make release-check` prints the same three lines against the current
 `VERSION`.
 
 Add entries under `[Unreleased]` as you work. Do not edit the version headings
@@ -16,11 +16,9 @@ re-seeds an empty `[Unreleased]` block above it.
 `[Unreleased]` is for *changes since the last release only*.
 
 This changelog is the **only** place in the repo that records dated history or
-deployment state. Every other document — `README.md`,
-`docs/MODULES_DEPENDENCY.md`, the module READMEs and the `bootstrap-backend/`
-runbooks — describes how to provision, never what is currently provisioned. Keep
-it that way: status notes rot, and a reader who trusts one plans from a false
-premise.
+release state. `README.md` describes how to build and run the image, never
+what is currently published. Keep it that way: status notes rot, and a reader
+who trusts one plans from a false premise.
 
 ## [Unreleased]
 
@@ -36,6 +34,9 @@ premise.
   and secrets from the shell environment.
 - `.github/workflows/release.yml`: verifies a pushed `vX.Y.Z` tag against
   VERSION and CHANGELOG.md, then publishes a GitHub Release.
+- `Makefile`: `release-check`/`release-patch`/`release-minor`/`release-major`/
+  `release-tag`/`release-push` targets to bump VERSION, roll the changelog,
+  and cut a release tag.
 
 ### Changed
 
