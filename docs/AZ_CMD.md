@@ -218,6 +218,16 @@ This file contains handy az-cli commands used in this project.
       --resource-group "rg-rgomesapp-dev"
     ```
 
+3. If your local terminal stops echoing typed keys after exiting an `exec`
+   session (the connection dropped instead of a clean `exit`), restore it:
+
+    ```bash
+    stty sane
+    ```
+
+    You will not see what you type, but the command still runs. If that
+    does not fix it, try `reset` instead, or close and reopen the terminal.
+
 ### Other Miscellaneous Container App Commands
 
 1. Find the HTTP endpoint URL:

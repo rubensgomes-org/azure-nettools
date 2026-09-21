@@ -26,6 +26,9 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+- `motd`/`Dockerfile`: the motd now shows the image `VERSION`, substituted
+  at build time in place of a `{{VERSION}}` placeholder.
+
 ### Fixed
 
 ## [0.0.3] - 2026-09-20

@@ -51,15 +51,18 @@ RUN apt-get update && \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+# Deliberately NOT a real version number. This feeds the motd and the OCI
+# label below, and a plausible-looking default would silently drift from the
+# VERSION file on every release. Pass --build-arg VERSION="$(cat VERSION)"
+# to set it. Declared here, after the apt-get layer, so a version bump does
+# not invalidate that layer's build cache.
+ARG VERSION=0.0.0
+
 # copy OS environment files
 COPY motd /etc/motd
+RUN sed -i "s/{{VERSION}}/${VERSION}/" /etc/motd
 
 # ---------- >>> LABEL <<< ----------------------------------------------------
-
-# Deliberately NOT a real version number. This only feeds the OCI label below,
-# and a plausible-looking default would silently drift from the VERSION file
-# on every release. Pass --build-arg VERSION="$(cat VERSION)" to set it.
-ARG VERSION=0.0.0
 
 LABEL org.opencontainers.image.title="azure-nettools" \
       org.opencontainers.image.description="Linux tools to troubleshoot Azure ACAs" \
