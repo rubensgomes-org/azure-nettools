@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.7] - 2026-09-21
+
+### Added
+
+### Changed
+
 - `aca-create.yml`: passes `apps_without_ingress: ["nettools"]` to the
   reusable ACA Create workflow. `nettools` runs `sleep infinity` with no
   listener, so an `ingress` block gave it a default StartUp probe it could
