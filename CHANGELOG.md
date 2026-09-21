@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.6] - 2026-09-21
+
+### Added
+
+### Changed
+
+### Fixed
+
 - `README.md`: repaired the license and AI-assisted badges, which had a
   stray line break splitting `[![...]` and so rendered as raw text instead
   of clickable images.
