@@ -73,10 +73,13 @@ shopt -s checkwinsize
 # The \[ \] wrappers mark the escape sequences as zero-width so Bash
 # computes the prompt length correctly and line editing does not
 # smear on long command lines.
-# `az containerapp exec` sessions can leave TERM unset or "dumb", which
-# makes tput fail to resolve color capabilities even though it's
-# installed; default to a color-capable value so the check below works.
-: "${TERM:=xterm}"
+# `az containerapp exec` sessions can leave TERM unset, which makes tput
+# fail to resolve color capabilities even though it's installed. Bash
+# itself defaults an unset TERM to "dumb" before .bashrc runs, so
+# `: "${TERM:=xterm}"` would never fire; check for "dumb" explicitly.
+if [[ -z "${TERM}" || "${TERM}" == "dumb" ]]; then
+  TERM=xterm
+fi
 export TERM
 
 if [[ -x /usr/bin/tput ]] && tput setaf >&/dev/null; then

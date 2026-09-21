@@ -36,7 +36,7 @@ jobs:
           VERSION="$(cat VERSION)"
           echo "Building nettools:${VERSION} (and nettools:latest)..."
           docker build \
-            --build-arg VERSION="${VERSION}" \
+            --build-arg APP_VERSION="${VERSION}" \
             -t "nettools:${VERSION}" \
             -t "nettools:latest" .
           echo "Built nettools:${VERSION}."

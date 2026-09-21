@@ -53,20 +53,22 @@ RUN apt-get update && \
 
 # Deliberately NOT a real version number. This feeds the motd and the OCI
 # label below, and a plausible-looking default would silently drift from the
-# VERSION file on every release. Pass --build-arg VERSION="$(cat VERSION)"
-# to set it. Declared here, after the apt-get layer, so a version bump does
-# not invalidate that layer's build cache.
-ARG VERSION=0.0.0
+# VERSION file on every release. Pass --build-arg APP_VERSION="$(cat VERSION)"
+# to set it -- named APP_VERSION, not VERSION, to match what the
+# publish-acr-image reusable CI action (azure-workflows) passes. Declared
+# here, after the apt-get layer, so a version bump does not invalidate that
+# layer's build cache.
+ARG APP_VERSION=0.0.0
 
 # copy OS environment files
 COPY motd /etc/motd
-RUN sed -i "s/{{VERSION}}/${VERSION}/" /etc/motd
+RUN sed -i "s/{{VERSION}}/${APP_VERSION}/" /etc/motd
 
 # ---------- >>> LABEL <<< ----------------------------------------------------
 
 LABEL org.opencontainers.image.title="azure-nettools" \
       org.opencontainers.image.description="Linux tools to troubleshoot Azure ACAs" \
-      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.version="${APP_VERSION}" \
       org.opencontainers.image.source="https://github.com/rubensgomes-org/azure-nettools" \
       org.opencontainers.image.url="https://github.com/rubensgomes-org/azure-nettools" \
       org.opencontainers.image.licenses="MIT" \

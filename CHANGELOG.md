@@ -28,6 +28,16 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+- `Dockerfile`: renamed the `VERSION` build arg to `APP_VERSION` to match
+  what the `publish-acr-image` reusable CI action actually passes. The
+  mismatch meant the arg was silently ignored, so every image built via
+  `build-deploy.yml` carried the `0.0.0` default in its motd and OCI
+  `image.version` label regardless of the real release version.
+- `bashrc`: check for `TERM=dumb`, not just unset/empty, before defaulting
+  it. Bash itself sets `TERM=dumb` before `.bashrc` runs when none is
+  supplied (as in an `az containerapp exec` session), so the previous
+  `: "${TERM:=xterm}"` fix never fired and `tput` still failed.
+
 ## [0.0.4] - 2026-09-20
 
 ### Added

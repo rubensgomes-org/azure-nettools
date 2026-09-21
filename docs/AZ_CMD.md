@@ -228,6 +228,17 @@ This file contains handy az-cli commands used in this project.
     You will not see what you type, but the command still runs. If that
     does not fix it, try `reset` instead, or close and reopen the terminal.
 
+
+4. Check the currently running version of the container app image
+
+    ```bash
+    az containerapp show \
+      --name "ca-nettools-dev" \
+      --resource-group "rg-rgomesapp-dev" \
+      --query "properties.template.containers[0].image" \
+      -o tsv
+    ```
+
 ### Other Miscellaneous Container App Commands
 
 1. Find the HTTP endpoint URL:

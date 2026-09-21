@@ -74,7 +74,7 @@ tools. For details on usage, limits, and review practices, please see the
     ```bash
     VERSION="$(cat VERSION)"
     docker build --debug \
-      --build-arg VERSION="${VERSION}" \
+      --build-arg APP_VERSION="${VERSION}" \
       -t "nettools:${VERSION}" \
       -t "nettools:latest" .
     ```
