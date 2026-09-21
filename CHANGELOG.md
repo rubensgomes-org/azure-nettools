@@ -24,6 +24,14 @@ who trusts one plans from a false premise.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.0.1] - 2026-09-20
+
+### Added
+
 - `.github/workflows/aca-create.yml`: provisions the Azure Container App
   estate via the reusable `azure-iac` workflow.
 - `.github/workflows/aca-destroy.yml`: destroys the container apps module via
