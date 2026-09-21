@@ -73,6 +73,12 @@ shopt -s checkwinsize
 # The \[ \] wrappers mark the escape sequences as zero-width so Bash
 # computes the prompt length correctly and line editing does not
 # smear on long command lines.
+# `az containerapp exec` sessions can leave TERM unset or "dumb", which
+# makes tput fail to resolve color capabilities even though it's
+# installed; default to a color-capable value so the check below works.
+: "${TERM:=xterm}"
+export TERM
+
 if [[ -x /usr/bin/tput ]] && tput setaf >&/dev/null; then
   # We have color support; assume it's compliant with Ecma-48
   # (ISO/IEC-6429). (Lack of such support is extremely rare, and such

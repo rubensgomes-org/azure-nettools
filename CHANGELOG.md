@@ -28,6 +28,11 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+- `bashrc`: default `TERM` to `xterm` when unset before the color-support
+  check. `az containerapp exec` sessions can leave `TERM` unset or `dumb`,
+  which made `tput` fail to resolve color capabilities and print a
+  misleading "missing /usr/bin/tput" message even though it was installed.
+
 ## [0.0.2] - 2026-09-20
 
 ### Added

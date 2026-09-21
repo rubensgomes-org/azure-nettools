@@ -188,6 +188,15 @@ This file contains handy az-cli commands used in this project.
       --min-replicas 0
     ```
 
+3. Deactivate the revision, which immediately tears down all its replicas.
+
+    ```bash
+    az containerapp revision deactivate \
+      --name "ca-nettools-dev" \
+      --resource-group "rg-rgomesapp-dev" \
+      --revision "ca-nettools-dev--0000004"
+    ```
+
 ### Connect to Container App Console + Debug Console
 
 1. Shell into the real container app shell:
