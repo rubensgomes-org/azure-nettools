@@ -81,5 +81,7 @@ COPY bash_profile .bash_profile
 COPY inputrc .inputrc
 COPY vimrc .vimrc
 
-# bash rules!
-CMD ["/bin/bash"]
+# Keep the container running so `az containerapp exec` has a live
+# process to attach to. `/bin/bash` as CMD exits immediately (no TTY
+# at container start), which causes a CrashLoopBackOff.
+CMD ["sleep", "infinity"]
