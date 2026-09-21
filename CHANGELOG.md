@@ -28,6 +28,12 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+- `README.md`: repaired the license and AI-assisted badges, which had a
+  stray line break splitting `[![...]` and so rendered as raw text instead
+  of clickable images.
+- `README.md`: fixed the AI Disclaimer link, which pointed to the
+  misspelled `azure-nettols` repo.
+
 ## [0.0.5] - 2026-09-20
 
 ### Added

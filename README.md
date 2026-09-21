@@ -1,14 +1,11 @@
-[!
-[License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
-[!
-[AI Assisted](https://img.shields.io/badge/AI--Assisted-Development-007ACC)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
-
 # Azure NetTools
 
 I created this `azure-nettools` project to create a "Swiss Army knife"
 containerized image of Linux tools to help troubleshoot my Azure Container Apps
 running in the same CAE.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
+[![AI Assisted](https://img.shields.io/badge/AI--Assisted-Development-007ACC)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
 
 
 ## Features
@@ -60,7 +57,7 @@ Among others, I am including the following tools:
 
 This project includes code and documentation created with the assistance of AI
 tools. For details on usage, limits, and review practices, please see the
-[AI Disclaimer](https://github.com/rubensgomes-org/azure-nettols/blob/main/AI_DISCLAIMER.md).
+[AI Disclaimer](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md).
 
 ## Prerequisites
 
