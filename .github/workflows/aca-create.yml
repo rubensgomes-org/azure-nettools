@@ -1,5 +1,5 @@
 # =============================================================================
-# aca-create (azure-nettools)
+# aca-create
 #
 # Provisions the Azure Container App estate (resource groups, networking,
 # log analytics, managed identity, key vault, ACR, container app environment
@@ -23,13 +23,6 @@ on:
         options:
           - dev
           - lab
-      acr_name:
-        description: 'Registry to pull images from (not the login server).'
-        required: true
-        type: choice
-        options:
-          - crrgomesdev01
-          - crrgomeslab02
 
 permissions:
   contents: read
@@ -39,11 +32,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  resolve-acr:
+    runs-on: ubuntu-latest
+    outputs:
+      acr_name: ${{ steps.resolve.outputs.acr_name }}
+    steps:
+      - id: resolve
+        run: |
+          case "${{ inputs.environment_name }}" in
+            dev) echo "acr_name=crrgomesdev01" >> "$GITHUB_OUTPUT" ;;
+            lab) echo "acr_name=crrgomeslab02" >> "$GITHUB_OUTPUT" ;;
+          esac
+
   create:
+    needs: resolve-acr
     uses: rubensgomes-org/azure-iac/.github/workflows/aca-create.yml@v0
     with:
       environment_name: ${{ inputs.environment_name }}
-      acr_name: ${{ inputs.acr_name }}
+      acr_name: ${{ needs.resolve-acr.outputs.acr_name }}
       apps: '["nettools"]'
       # nettools is a debug/exec toolbox (sleep infinity, no listener), not
       # an HTTP service -- an ingress block would get a default StartUp
