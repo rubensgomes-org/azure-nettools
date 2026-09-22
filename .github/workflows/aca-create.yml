@@ -51,9 +51,5 @@ jobs:
       environment_name: ${{ inputs.environment_name }}
       acr_name: ${{ needs.resolve-acr.outputs.acr_name }}
       apps: '["nettools"]'
-      # nettools is a debug/exec toolbox (sleep infinity, no listener), not
-      # an HTTP service -- an ingress block would get a default StartUp
-      # probe it can never pass.
-      apps_without_ingress: '["nettools"]'
     secrets:
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

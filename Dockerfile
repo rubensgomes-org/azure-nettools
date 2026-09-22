@@ -61,7 +61,7 @@ RUN apt-get update && \
 ARG APP_VERSION=0.0.0
 
 # copy OS environment files
-COPY motd /etc/motd
+COPY context/motd /etc/motd
 RUN sed -i "s/{{VERSION}}/${APP_VERSION}/" /etc/motd
 
 # ---------- >>> LABEL <<< ----------------------------------------------------
@@ -80,13 +80,21 @@ LABEL org.opencontainers.image.title="azure-nettools" \
 WORKDIR /root
 
 # copy user environment files
-COPY bashrc .bashrc
-COPY bash_aliases .bash_aliases
-COPY bash_profile .bash_profile
-COPY inputrc .inputrc
-COPY vimrc .vimrc
+COPY context/bashrc .bashrc
+COPY context/bash_aliases .bash_aliases
+COPY context/bash_profile .bash_profile
+COPY context/inputrc .inputrc
+COPY context/vimrc .vimrc
 
-# Keep the container running so `az containerapp exec` has a live
-# process to attach to. `/bin/bash` as CMD exits immediately (no TTY
-# at container start), which causes a CrashLoopBackOff.
-CMD ["sleep", "infinity"]
+# ---------- >>> HEALTH RESPONDER <<< -----------------------------------------
+
+# Answers Azure Container Apps' default ingress startup probe on 80
+# (see healthd.sh) and keeps the container running for `az
+# containerapp exec`. 80 matches module 11's default `target_port` --
+# nettools has no real HTTP app, so there's no reason to diverge from
+# it and add a TF_VAR_target_port repository variable just for this.
+COPY context/healthd.sh /usr/local/bin/healthd.sh
+ENV HTTP_PORT=80
+EXPOSE 80
+
+CMD ["/usr/local/bin/healthd.sh"]

@@ -1,8 +1,8 @@
 # Azure NetTools
 
 I created this `azure-nettools` project to create a "Swiss Army knife"
-containerized image of Linux tools to help troubleshoot my Azure Container Apps
-running in the same CAE.
+containerized image of Linux tools to help troubleshoot other Azure Container 
+Apps running in the same Container Apps Environment (CAE) VNet.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
 [![AI Assisted](https://img.shields.io/badge/AI--Assisted-Development-007ACC)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
