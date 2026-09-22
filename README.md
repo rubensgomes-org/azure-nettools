@@ -1,12 +1,11 @@
-# Azure NetTools
+# Azure NetTools Container App
 
-I created this `azure-nettools` project to create a "Swiss Army knife"
-containerized image of Linux tools to help troubleshoot other Azure Container 
-Apps running in the same Container Apps Environment (CAE) VNet.
+`azure-nettools` is an Azure Container App that provides a terminal with several
+Linux networking tools to help troubleshoot and test other container apps
+running in the same Azure Container Apps environment VNet.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
 [![AI Assisted](https://img.shields.io/badge/AI--Assisted-Development-007ACC)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
-
 
 ## Features
 
@@ -14,44 +13,23 @@ Among others, I am including the following tools:
 
 1. Networking
 
-- bind-tools
-- curl
-- iperf3
-- iproute2
-- iptables
-- iputils
-- liboping
-- mtr
-- net-tools
-- nmap
-- openssh-client
-- socat
-- tcpdump
-- wget
+- `apache2-utils`, `dnsutils`, `curl`, `iperf3`, `iproute2`, `iputils-ping`
+  `iputils-tracepath`, `mtr-tiny`, `net-tools`, `netcat-openbsd`, `nmap`,
+  `openssh-client`, `openssl`, `socat`, `tcpdump`, `telnet`, `traceroute`,
+  `wget`
 
 2. System & Process Monitoring
 
-- coreutils
-- gawk
-- htop
-- lsof
-- procps
-- strace
-- util-linux
-- vim
+- `bash-completion`, `bsdextrautils`, `coreutils`, `gawk`, `htop`,`less`,
+  `lsof`, `ncurses-bin`, `procps`, `strace`, `tree`, `util-linux`,`vim`,
 
 3. Parsers and Storage
 
-- gzip
-- jq
-- yq
-- tar
+- `gzip`, `jq`, `yq`, `tar`
 
 4. Miscellaneous
 
-- bash
-- ca-certificates
-- uuidgen
+- `bash`, `ca-certificates`
 
 ## AI Disclaimer
 
@@ -61,27 +39,61 @@ tools. For details on usage, limits, and review practices, please see the
 
 ## Prerequisites
 
-- UNIX OS (e.g., macOS, Linux)
-- Docker 29.8+
+- Environment Setup: Azure + GitHub
 
-## Installation and Usage
+## Installation
 
-- **Build the image:**
+- Build and verify the image:
 
-    ```bash
-    VERSION="$(cat VERSION)"
-    docker build --debug \
-      --build-arg APP_VERSION="${VERSION}" \
-      -t "nettools:${VERSION}" \
-      -t "nettools:latest" .
-    ```
+  ```text
+  # run GitHub Action:
+  .github/workflows/build-verify.yml
+  ```
 
-- **Run the container:**
-    ```bash
-    docker run -it --rm --name nettools nettools:latest
-    ```
+- Create container app:
 
-## Testing a calculator-mcp Server
+  ```text
+  # run GitHub Action:
+  .github/workflows/aca-create.yml
+  ```
+
+- Build and deploy image:
+
+  ```text
+  # run GitHub Action:
+  .github/workflows/build-deploy.yml
+  ```
+
+## Usage
+
+- Sign in to Azure (**requires environment setup**)
+
+  ```bash
+  az login --service-principal \
+    --username "${AZURE_CLIENT_ID}" \
+    --password "${AZURE_CLIENT_SECRET}" \
+    --tenant "${AZURE_TENANT_ID}"
+  ```
+
+- Ensure at least 1 (one) replica running:
+
+  ```bash
+  az containerapp update \
+    -n "ca-nettools-dev" \
+    -g "rg-rgomesapp-dev" \
+    --min-replicas 1
+  ```
+
+- Shell into the terminal:
+
+  ```bash
+  az containerapp exec \
+    --name "ca-nettools-dev" \
+    --resource-group "rg-rgomesapp-dev" \
+    --command /bin/bash
+  ```
+
+## Testing the calculator-mcp Server
 
 The image includes `testcalcmcp.sh` (`/root/bin/testcalcmcp.sh`), which
 exercises a `calculator-mcp` server running the Modern Era (2026-07-28
@@ -92,7 +104,6 @@ one `tools/call` per tool, and `server/discover`.
 testcalcmcp.sh --host <host> --port <port>
 ```
 
-- Defaults to `127.0.0.1:8080` when `--host`/`--port` are omitted.
 - Requires a `calculator-mcp` server reachable over clear HTTP with
   `server.stateless: true` in its `config.yaml`.
 - Run `testcalcmcp.sh --help` for all options.
