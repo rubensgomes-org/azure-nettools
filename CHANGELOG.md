@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.12] - 2026-09-22
+
+### Added
+
+### Changed
+
 - `README.md`: rewritten around the Azure Container App workflow
   (install via GitHub Actions, `az containerapp exec` usage) and an
   updated tool list.
