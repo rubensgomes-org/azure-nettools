@@ -24,6 +24,14 @@ who trusts one plans from a false premise.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.0.9] - 2026-09-21
+
+### Added
+
 - `context/healthd.sh`: minimal `socat`-based HTTP responder on port 80,
   answering Azure Container Apps' default ingress StartUp probe.
   `nettools` has no real HTTP service, so this exists purely to satisfy
