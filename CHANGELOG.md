@@ -24,7 +24,18 @@ who trusts one plans from a false premise.
 
 ### Added
 
+- `context/lib/sh-lib/msg_lib.sh`, `os_lib.sh`, `sh_lib.sh`, `sed_lib.sh`,
+  `misc_lib.sh`: shared Bash function libraries, copied into the image at
+  `/root/lib/sh-lib`.
+- `context/testcalcmcp.sh`: exercises a `calculator-mcp` server's HTTP
+  stateless mode (health, `tools/list`, one `tools/call` per tool, and
+  `server/discover`), copied into the image as `/root/bin/testcalcmcp.sh`.
+
 ### Changed
+
+- `Dockerfile`: sets `ENV HOME=/root` explicitly and copies `context/lib`
+  and `context/testcalcmcp.sh` into the image, since `testcalcmcp.sh`
+  resolves `${HOME}/lib/sh-lib` at runtime.
 
 ### Fixed
 

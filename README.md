@@ -81,6 +81,22 @@ tools. For details on usage, limits, and review practices, please see the
     docker run -it --rm --name nettools nettools:latest
     ```
 
+## Testing a calculator-mcp Server
+
+The image includes `testcalcmcp.sh` (`/root/bin/testcalcmcp.sh`), which
+exercises a `calculator-mcp` server running the Modern Era (2026-07-28
+spec) MCP protocol over HTTP in stateless mode: `/health`, `tools/list`,
+one `tools/call` per tool, and `server/discover`.
+
+```bash
+testcalcmcp.sh --host <host> --port <port>
+```
+
+- Defaults to `127.0.0.1:8080` when `--host`/`--port` are omitted.
+- Requires a `calculator-mcp` server reachable over clear HTTP with
+  `server.stateless: true` in its `config.yaml`.
+- Run `testcalcmcp.sh --help` for all options.
+
 ## License
 
 The project is licensed under

@@ -76,8 +76,11 @@ LABEL org.opencontainers.image.title="azure-nettools" \
 
 # ---------- >>> USER <<< -----------------------------------------------------
 
-# root user home directory on Debian
+# root user home directory on Debian. HOME is set explicitly since
+# testcalcmcp.sh resolves its "${HOME}/lib/sh-lib" dependency at
+# runtime and cannot rely on a shell inferring it from /etc/passwd.
 WORKDIR /root
+ENV HOME=/root
 
 # copy user environment files
 COPY context/bashrc .bashrc
@@ -85,6 +88,9 @@ COPY context/bash_aliases .bash_aliases
 COPY context/bash_profile .bash_profile
 COPY context/inputrc .inputrc
 COPY context/vimrc .vimrc
+COPY context/lib lib
+RUN mkdir -p bin
+COPY --chmod=750 context/testcalcmcp.sh bin/testcalcmcp.sh
 
 # ---------- >>> HEALTH RESPONDER <<< -----------------------------------------
 
