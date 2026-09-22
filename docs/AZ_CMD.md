@@ -199,9 +199,14 @@ This file contains handy az-cli commands used in this project.
 
 ### Connect to Container App Console + Debug Console
 
-1. Shell into the real container app shell:
+1. Before connecting to console ensure you have at least 1 (one) replica.
+   Then, shell into the container app shell:
 
     ```bash
+    az containerapp update \
+      -n "ca-nettools-dev" \
+      -g "rg-rgomesapp-dev" \
+      --min-replicas 1
     az containerapp exec \
       --name "ca-nettools-dev" \
       --resource-group "rg-rgomesapp-dev" \
@@ -225,8 +230,8 @@ This file contains handy az-cli commands used in this project.
     stty sane
     ```
 
-    You will not see what you type, but the command still runs. If that
-    does not fix it, try `reset` instead, or close and reopen the terminal.
+   You will not see what you type, but the command still runs. If that
+   does not fix it, try `reset` instead, or close and reopen the terminal.
 
 
 4. Check the currently running version of the container app image

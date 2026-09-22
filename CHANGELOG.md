@@ -26,6 +26,10 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+- `docs/AZ_CMD.md`: the console/debug console steps now scale the app to
+  at least 1 replica (`az containerapp update --min-replicas 1`) before
+  `az containerapp exec`, since exec has no target with zero replicas.
+
 ### Fixed
 
 ## [0.0.9] - 2026-09-21
