@@ -28,10 +28,6 @@ trap 'rm -f "${response_file}"' EXIT
 printf 'HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n' \
   > "${response_file}"
 
-# One connection at a time, in the foreground of this loop -- no
-# `fork`/background socat, so the shell reaps every child itself and
-# nothing accumulates as a zombie under continual probe traffic.
-while true; do
-  socat -T 5 TCP-LISTEN:"${port}",reuseaddr SYSTEM:"cat ${response_file}" \
-    || true
-done
+# `fork` serves each connection in a child process so concurrent probes
+# (readiness and liveness fire together) never find the port closed.
+socat -T 5 TCP-LISTEN:"${port}",reuseaddr,fork SYSTEM:"cat ${response_file}"

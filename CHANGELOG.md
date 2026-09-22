@@ -30,6 +30,9 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+- `healthd.sh`: serve connections with socat `fork` so concurrent ACA
+  probes no longer fail and restart the container.
+
 ## [0.0.13] - 2026-09-22
 
 ### Added
