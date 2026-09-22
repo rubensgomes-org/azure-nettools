@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.13] - 2026-09-22
+
+### Added
+
+### Changed
+
+### Fixed
+
 - `Dockerfile`: replaced `COPY --chmod` with `RUN chmod`; ACR Tasks builds
   without BuildKit, so `COPY --chmod` failed.
 
