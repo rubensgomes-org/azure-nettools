@@ -26,7 +26,11 @@ who trusts one plans from a false premise.
 
 ### Changed
 
-- Updates to README
+- `README.md`: rewritten around the Azure Container App workflow
+  (install via GitHub Actions, `az containerapp exec` usage) and an
+  updated tool list.
+- `.github/workflows/repo-delete.yml`: the registry name is derived from
+  the selected `environment` instead of a separate `registry_name` input.
 
 ### Fixed
 
