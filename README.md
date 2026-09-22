@@ -13,15 +13,15 @@ Among others, I am including the following tools:
 
 1. Networking
 
-- `apache2-utils`, `dnsutils`, `curl`, `iperf3`, `iproute2`, `iputils-ping`
+- `apache2-utils`, `dnsutils`, `curl`, `iperf3`, `iproute2`, `iputils-ping`,
   `iputils-tracepath`, `mtr-tiny`, `net-tools`, `netcat-openbsd`, `nmap`,
   `openssh-client`, `openssl`, `socat`, `tcpdump`, `telnet`, `traceroute`,
   `wget`
 
 2. System & Process Monitoring
 
-- `bash-completion`, `bsdextrautils`, `coreutils`, `gawk`, `htop`,`less`,
-  `lsof`, `ncurses-bin`, `procps`, `strace`, `tree`, `util-linux`,`vim`,
+- `bash-completion`, `bsdextrautils`, `coreutils`, `gawk`, `htop`, `less`,
+  `lsof`, `ncurses-bin`, `procps`, `strace`, `tree`, `util-linux`, `vim`
 
 3. Parsers and Storage
 

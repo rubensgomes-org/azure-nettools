@@ -89,8 +89,8 @@ COPY context/bash_profile .bash_profile
 COPY context/inputrc .inputrc
 COPY context/vimrc .vimrc
 COPY context/lib lib
-RUN mkdir -p bin
-COPY --chmod=750 context/testcalcmcp.sh bin/testcalcmcp.sh
+COPY context/testcalcmcp.sh bin/testcalcmcp.sh
+RUN chmod 750 bin/testcalcmcp.sh
 
 # ---------- >>> HEALTH RESPONDER <<< -----------------------------------------
 
