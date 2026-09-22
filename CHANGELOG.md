@@ -26,6 +26,8 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+- Updates to README
+
 ### Fixed
 
 ## [0.0.11] - 2026-09-21
