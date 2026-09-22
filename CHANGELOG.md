@@ -24,6 +24,14 @@ who trusts one plans from a false premise.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.0.11] - 2026-09-21
+
+### Added
+
 - `context/lib/sh-lib/msg_lib.sh`, `os_lib.sh`, `sh_lib.sh`, `sed_lib.sh`,
   `misc_lib.sh`: shared Bash function libraries, copied into the image at
   `/root/lib/sh-lib`.
