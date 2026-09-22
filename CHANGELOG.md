@@ -24,9 +24,29 @@ who trusts one plans from a false premise.
 
 ### Added
 
+- `context/healthd.sh`: minimal `socat`-based HTTP responder on port 80,
+  answering Azure Container Apps' default ingress StartUp probe.
+  `nettools` has no real HTTP service, so this exists purely to satisfy
+  the probe.
+
 ### Changed
 
+- `Dockerfile`: `CMD` is now `context/healthd.sh` instead of `sleep
+  infinity`. The responder both answers the probe and keeps the
+  container running for `az containerapp exec`, so the plain `sleep`
+  is no longer needed.
+- `Dockerfile`: the files it `COPY`s (`bashrc`, `bash_aliases`,
+  `bash_profile`, `inputrc`, `vimrc`, `motd`, `healthd.sh`) moved into
+  a new `context/` directory, out of the project root.
+
 ### Fixed
+
+### Removed
+
+- `aca-create.yml`: `apps_without_ingress: ["nettools"]`, added in
+  `[0.0.7]`. The reusable workflow dropped support for it (every app
+  is provisioned identically again), and `nettools` now ships its own
+  listener (`context/healthd.sh`) instead of opting out of ingress.
 
 ## [0.0.8] - 2026-09-21
 
