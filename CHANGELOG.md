@@ -26,6 +26,8 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+- fix cicd build
+
 ### Fixed
 
 ## [0.0.13] - 2026-09-22
