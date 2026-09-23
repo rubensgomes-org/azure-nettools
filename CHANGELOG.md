@@ -24,6 +24,9 @@ who trusts one plans from a false premise.
 
 ### Added
 
+- `.github/dependabot.yml`: daily updates for GitHub Actions and the Docker
+  base image.
+
 ### Changed
 
 - fix cicd build
