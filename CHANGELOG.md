@@ -24,6 +24,14 @@ who trusts one plans from a false premise.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.0.14] - 2026-09-22
+
+### Added
+
 - `.github/dependabot.yml`: daily updates for GitHub Actions and the Docker
   base image.
 
