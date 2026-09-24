@@ -24,6 +24,14 @@ who trusts one plans from a false premise.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.0.15] - 2026-09-23
+
+### Added
+
 - Database clients: `postgresql-client`, `redis-tools`, and `sqlcmd`
   (go-sqlcmd v1.10.0).
 - Service clients: `grpcurl` (v1.9.4), `kcat`, and `smbclient`.
