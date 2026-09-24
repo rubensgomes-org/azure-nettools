@@ -9,7 +9,8 @@ running in the same Azure Container Apps environment VNet.
 
 ## Features
 
-Among others, I am including the following tools:
+Among others, I am including the following tools (see [TOOLS.md](docs/TOOLS.md)
+for descriptions):
 
 1. Networking
 
@@ -21,13 +22,21 @@ Among others, I am including the following tools:
 2. System & Process Monitoring
 
 - `bash-completion`, `bsdextrautils`, `coreutils`, `gawk`, `htop`, `less`,
-  `lsof`, `ncurses-bin`, `procps`, `strace`, `tree`, `util-linux`, `vim`
+  `lsof`, `ncurses-bin`, `procps`, `strace`, `tmux`, `tree`, `util-linux`, `vim`
 
 3. Parsers and Storage
 
-- `gzip`, `jq`, `yq`, `tar`
+- `bzip2`, `gzip`, `jq`, `yq`, `tar`
 
-4. Miscellaneous
+4. Databases
+
+- `postgresql-client`, `redis-tools`, `sqlcmd` (go-sqlcmd)
+
+5. Service Clients
+
+- `grpcurl`, `kcat`, `smbclient`
+
+6. Miscellaneous
 
 - `bash`, `ca-certificates`
 

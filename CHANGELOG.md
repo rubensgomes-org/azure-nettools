@@ -24,7 +24,18 @@ who trusts one plans from a false premise.
 
 ### Added
 
+- Database clients: `postgresql-client`, `redis-tools`, and `sqlcmd`
+  (go-sqlcmd v1.10.0).
+- Service clients: `grpcurl` (v1.9.4), `kcat`, and `smbclient`.
+- `bzip2` and `tmux`.
+- `docs/TOOLS.md`: description of each installed tool.
+
 ### Changed
+
+- `Dockerfile`: `sqlcmd` and `grpcurl` are installed from pinned,
+  checksum-verified GitHub release binaries for amd64 and arm64.
+- `README.md`: new Databases and Service Clients sections, and a link to
+  `docs/TOOLS.md`.
 
 ### Fixed
 
