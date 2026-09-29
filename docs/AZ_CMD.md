@@ -1,8 +1,6 @@
-# AZ_CMD
+## Azure CLI Commands
 
 This file contains handy az-cli commands used in this project.
-
-## Azure CLI Commands
 
 ### CAE Commands
 

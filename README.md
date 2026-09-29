@@ -1,11 +1,14 @@
 # Azure NetTools Container App
 
+[![Microsoft](https://img.shields.io/badge/Microsoft-Azure-0969da)](https://azure.microsoft.com/en-us)
+[![AI Assisted](https://img.shields.io/badge/AI%20Assisted-Development-d29922)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
+[![License](https://img.shields.io/badge/License-MIT-0969da)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
+
 `azure-nettools` is an Azure Container App that provides a terminal with several
 Linux networking tools to help troubleshoot and test other container apps
 running in the same Azure Container Apps environment VNet.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
-[![AI Assisted](https://img.shields.io/badge/AI--Assisted-Development-007ACC)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
+---
 
 ## Features
 
@@ -121,6 +124,14 @@ testcalcmcp.sh --host <host> --port <port>
 
 The project is licensed under
 [MIT License](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE).
+
+## Links
+
+- [GitHub Project](https://github.com/rubensgomes-org/azure-nettools)
+- 
+[AZ_CMD](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/AZ_CMD.md)
+- 
+[TOOLS](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/TOOLS.md)
 
 ---
 Author: [Rubens Gomes](https://rubensgomes.com/)

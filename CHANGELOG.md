@@ -24,6 +24,8 @@ who trusts one plans from a false premise.
 
 ### Added
 
+- `README.md`: Links section entries with full URLs to the `docs` files.
+
 ### Changed
 
 ### Fixed
