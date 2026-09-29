@@ -128,10 +128,8 @@ The project is licensed under
 ## Links
 
 - [GitHub Project](https://github.com/rubensgomes-org/azure-nettools)
-- 
-[AZ_CMD](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/AZ_CMD.md)
-- 
-[TOOLS](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/TOOLS.md)
+- [AZ_CMD](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/AZ_CMD.md)
+- [TOOLS](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/TOOLS.md)
 
 ---
 Author: [Rubens Gomes](https://rubensgomes.com/)

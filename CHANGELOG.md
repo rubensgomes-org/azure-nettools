@@ -28,6 +28,8 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+- `README.md`: Links list items rendered empty, with links outside the list.
+
 ## [0.0.16] - 2026-09-29
 
 ### Added
