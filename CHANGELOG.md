@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.18] - 2026-10-02
+
+### Added
+
+### Changed
+
 - `README.md`: refreshed badges, renamed Links entries, and proofread
   wording and tool ordering.
 
