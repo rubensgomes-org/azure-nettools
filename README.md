@@ -1,8 +1,9 @@
 # Azure NetTools Container App
 
+[![GitHub](https://img.shields.io/badge/GitHub-Actions-0969da?logo=github+actions)](https://github.com/features/actions)
 [![Microsoft](https://img.shields.io/badge/Microsoft-Azure-0969da)](https://azure.microsoft.com/en-us)
-[![AI Assisted](https://img.shields.io/badge/AI%20Assisted-Development-d29922)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
-[![License](https://img.shields.io/badge/License-MIT-0969da)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
+[![AI](https://img.shields.io/badge/AI-Assisted-d29922?logo=claude+code)](https://github.com/rubensgomes-org/azure-nettools/blob/main/AI_DISCLAIMER.md)
+[![license](https://img.shields.io/badge/license-MIT-1a7f37)](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE)
 
 `azure-nettools` is an Azure Container App that provides a terminal with several
 Linux networking tools to help troubleshoot and test other container apps
@@ -12,12 +13,12 @@ running in the same Azure Container Apps environment VNet.
 
 ## Features
 
-Among others, I am including the following tools (see [TOOLS.md](docs/TOOLS.md)
-for descriptions):
+The image includes the following tools, among others (see
+[TOOLS.md](docs/TOOLS.md) for descriptions):
 
 1. Networking
 
-- `apache2-utils`, `dnsutils`, `curl`, `iperf3`, `iproute2`, `iputils-ping`,
+- `apache2-utils`, `curl`, `dnsutils`, `iperf3`, `iproute2`, `iputils-ping`,
   `iputils-tracepath`, `mtr-tiny`, `net-tools`, `netcat-openbsd`, `nmap`,
   `openssh-client`, `openssl`, `socat`, `tcpdump`, `telnet`, `traceroute`,
   `wget`
@@ -29,7 +30,7 @@ for descriptions):
 
 3. Parsers and Storage
 
-- `bzip2`, `gzip`, `jq`, `yq`, `tar`
+- `bzip2`, `gzip`, `jq`, `tar`, `yq`
 
 4. Databases
 
@@ -87,7 +88,7 @@ tools. For details on usage, limits, and review practices, please see the
     --tenant "${AZURE_TENANT_ID}"
   ```
 
-- Ensure at least 1 (one) replica running:
+- Ensure at least one replica is running:
 
   ```bash
   az containerapp update \
@@ -122,14 +123,14 @@ testcalcmcp.sh --host <host> --port <port>
 
 ## License
 
-The project is licensed under
+The project is licensed under the
 [MIT License](https://github.com/rubensgomes-org/azure-nettools/blob/main/LICENSE).
 
 ## Links
 
 - [GitHub Project](https://github.com/rubensgomes-org/azure-nettools)
-- [AZ_CMD](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/AZ_CMD.md)
-- [TOOLS](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/TOOLS.md)
+- [Azure Commands](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/AZ_CMD.md)
+- [Tools](https://github.com/rubensgomes-org/azure-nettools/blob/main/docs/TOOLS.md)
 
 ---
 Author: [Rubens Gomes](https://rubensgomes.com/)
