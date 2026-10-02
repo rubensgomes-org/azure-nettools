@@ -63,14 +63,14 @@ tools. For details on usage, limits, and review practices, please see the
   .github/workflows/build-verify.yml
   ```
 
-- Create container app:
+- Create the container app:
 
   ```text
   # run GitHub Action:
   .github/workflows/aca-create.yml
   ```
 
-- Build and deploy image:
+- Build and deploy the image:
 
   ```text
   # run GitHub Action:
@@ -117,7 +117,7 @@ one `tools/call` per tool, and `server/discover`.
 testcalcmcp.sh --host <host> --port <port>
 ```
 
-- Requires a `calculator-mcp` server reachable over clear HTTP with
+- Requires a `calculator-mcp` server reachable over plain HTTP with
   `server.stateless: true` in its `config.yaml`.
 - Run `testcalcmcp.sh --help` for all options.
 
