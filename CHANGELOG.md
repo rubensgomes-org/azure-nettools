@@ -28,6 +28,14 @@ who trusts one plans from a false premise.
 
 ### Fixed
 
+## [0.0.19] - 2026-10-02
+
+### Added
+
+### Changed
+
+### Fixed
+
 - Spelling and grammar in `AI_DISCLAIMER.md` and `README.md`.
 
 ## [0.0.18] - 2026-10-02
