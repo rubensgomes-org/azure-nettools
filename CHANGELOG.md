@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.20] - 2026-10-09
+
+### Added
+
+### Changed
+
 - `build-deploy.yml`: creates the container app via the `azure-iac`
   `aca-create.yml` workflow when it does not exist, then builds and deploys.
   The `environment` input is renamed `environment_name`.
