@@ -1,5 +1,5 @@
 # =============================================================================
-# release (azure-nettools)
+# Release
 #
 # The gate between a pushed tag and a release. Fires on v*.*.*, verifies the
 # tag matches the VERSION file and has a CHANGELOG section, then publishes a
@@ -10,7 +10,7 @@
 # refer to the `AI_DISCLAIMER.md` document located in the project's root
 # directory.
 # =============================================================================
-name: release
+name: Release
 
 on:
   push:

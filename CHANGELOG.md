@@ -26,7 +26,20 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+- `build-deploy.yml`: creates the container app via the `azure-iac`
+  `aca-create.yml` workflow when it does not exist, then builds and deploys.
+  The `environment` input is renamed `environment_name`.
+- `aca-destroy.yml`: also deletes the app's ACR repository.
+
 ### Fixed
+
+- ACR repository deletion passed `environment` to `acr-repo-delete.yml`,
+  which now expects `environment_name`.
+
+### Removed
+
+- `aca-create.yml`: merged into `build-deploy.yml`.
+- `repo-delete.yml`: merged into `aca-destroy.yml`.
 
 ## [0.0.19] - 2026-10-02
 

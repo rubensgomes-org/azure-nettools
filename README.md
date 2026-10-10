@@ -63,14 +63,7 @@ tools. For details on usage, limits, and review practices, please see the
   .github/workflows/build-verify.yml
   ```
 
-- Create the container app:
-
-  ```text
-  # run GitHub Action:
-  .github/workflows/aca-create.yml
-  ```
-
-- Build and deploy the image:
+- Create the container app (if missing), then build and deploy the image:
 
   ```text
   # run GitHub Action:
@@ -120,6 +113,19 @@ testcalcmcp.sh --host <host> --port <port>
 - Requires a `calculator-mcp` server reachable over plain HTTP with
   `server.stateless: true` in its `config.yaml`.
 - Run `testcalcmcp.sh --help` for all options.
+
+## Open Source Project Information
+
+This project is open source and publicly hosted on GitHub at
+[rubensgomes-org](https://github.com/rubensgomes-org/). It is
+published under an
+[OSI-approved open-source license](https://opensource.org/licenses).
+
+> [!IMPORTANT]
+> Public availability and the use of an OSI-approved license are requirements 
+> for eligibility to
+> use [SonarQube Cloud](https://sonarcloud.io/) under its free plan for
+> open-source projects.
 
 ## License
 
