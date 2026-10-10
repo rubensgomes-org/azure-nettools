@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.21] - 2026-10-09
+
+### Added
+
+### Changed
+
 - `context/testcalcmcp.sh`: functions that ended without an explicit
   `return` now end with `return 0`.
 
