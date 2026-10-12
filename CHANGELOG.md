@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.22] - 2026-10-11
+
+### Added
+
+### Changed
+
 - `build-deploy` workflow reads the workload from the `TF_VAR_WORKLOAD`
   Actions variable, managed by `scripts/initvars.sh`.
 - Renamed workflow display names: `ACA Create and Deploy`, `ACA Delete and
