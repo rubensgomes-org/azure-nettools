@@ -26,6 +26,14 @@ who trusts one plans from a false premise.
 
 ### Changed
 
+### Fixed
+
+## [0.0.23] - 2026-10-12
+
+### Added
+
+### Changed
+
 - Renamed `build-deploy` workflow display name to `ACA Build and Deploy`.
 
 ### Fixed
