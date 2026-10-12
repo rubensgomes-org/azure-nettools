@@ -10,7 +10,7 @@
 # refer to the `AI_DISCLAIMER.md` document located in the project's root
 # directory.
 # =============================================================================
-name: Release
+name: Release to GitHub
 
 on:
   push:

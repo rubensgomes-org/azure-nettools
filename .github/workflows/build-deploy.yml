@@ -12,7 +12,7 @@
 # refer to the `AI_DISCLAIMER.md` document located in the project's root
 # directory.
 # =============================================================================
-name: Build and Deploy to ACA
+name: ACA Create and Deploy
 
 on:
   workflow_dispatch:
@@ -38,8 +38,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # NOTE: ALL container apps SHOULD use rg-rgomesapp-<env>.
-  RESOURCE_GROUP: rg-rgomesapp-${{ inputs.environment_name }}
+  # NOTE: ALL container apps SHOULD use rg-<workload>app-<env>.
+  RESOURCE_GROUP: rg-${{ vars.TF_VAR_WORKLOAD }}app-${{ inputs.environment_name }}
   CONTAINER_APP: ca-nettools-${{ inputs.environment_name }}
 
 jobs:
